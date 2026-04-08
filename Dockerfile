@@ -4,6 +4,11 @@ WORKDIR /app
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 
+# ตั้งค่าให้ Container มองเห็น GPU บน RunPod ได้เต็มประสิทธิภาพ (เหมือนใน Image ปกติ)
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64
+
 # Install system deps Ollama commonly needs
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl ca-certificates bash tini \
