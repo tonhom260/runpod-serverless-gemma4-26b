@@ -64,8 +64,14 @@ import runpod
 
 import os, time, subprocess, requests, pathlib, sys
 
-MODEL_NAME = os.environ.get("MODEL_NAME", "gemma4:26b-a4b-it-q8_0")
-OLLAMA_MODELS_DIR = os.environ.get("OLLAMA_MODELS_DIR", "/runpod-volume/workspace/models")
+# รับค่า MODEL_NAME จาก Container Start Command (sys.argv) หรือ Environment Variable
+if len(sys.argv) > 1:
+    MODEL_NAME = sys.argv[1]
+else:
+    MODEL_NAME = os.environ.get("MODEL_NAME", "gemma4:26b-a4b-it-q8_0")
+
+# ใช้ OLLAMA_MODELS โดยตรงให้สอดคล้องกับภาพหน้าจอ (ค่าเริ่มต้นอิงตาม Volume เดิมของคุณ)
+OLLAMA_MODELS_DIR = os.environ.get("OLLAMA_MODELS", "/runpod-volume/workspace/models")
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "127.0.0.1:11434")
 OLLAMA_API = f"http://{OLLAMA_HOST}/api"
 

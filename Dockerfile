@@ -44,6 +44,7 @@ RUN pip install --no-cache-dir -r requirements.txt && \
 COPY handler.py .
 
 # Tini helps avoid zombie processes (ollama runs as a background server)
-ENTRYPOINT ["/usr/bin/tini", "--"]
+ENTRYPOINT ["/usr/bin/tini", "--", "python", "-u", "handler.py"]
 
-CMD ["python", "-u", "handler.py"]
+# รับชื่อโมเดลผ่าน Container Start Command ได้ (ตามภาพตัวอย่าง)
+CMD ["gemma4:26b-a4b-it-q8_0"]
