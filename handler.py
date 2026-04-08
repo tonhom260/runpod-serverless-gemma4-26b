@@ -6,7 +6,7 @@ import os
 
 # ใช้ชื่อ Model และ Path จากที่คุณแจ้งมา
 MODEL_NAME = os.environ.get("MODEL_NAME", "gemma4:26b-a4b-it-q8_0")
-OLLAMA_MODELS_DIR = "/workspace/models"
+OLLAMA_MODELS_DIR = "/runpod-volume/workspace/models"
 OLLAMA_API = "http://127.0.0.1:11434/api"
 
 def start_ollama():
