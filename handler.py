@@ -119,8 +119,7 @@ def handler(job):
             "error": str(e)
         }
 
-if __name__ == "__main__":
-    # 1. เริ่มระบบ Ollama เป็น Background Process
-    start_ollama()
-    # 2. เริ่มระบบ RunPod Serverless รับ Request จากข้างนอก
-    runpod.serverless.start({"handler": handler})
+# 1. เริ่มระบบ Ollama เป็น Background Process
+start_ollama()
+# 2. เริ่มระบบ RunPod Serverless รับ Request จากข้างนอก
+runpod.serverless.start({"handler": handler})

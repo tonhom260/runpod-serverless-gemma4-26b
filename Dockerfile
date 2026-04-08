@@ -1,17 +1,20 @@
-FROM ollama/ollama:latest
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# ollama/ollama is an Ubuntu base but lacks Python. We need to install python3 and pip.
+# ตั้งค่าไม่ให้ apt-get ถามโต้ตอบ (ป้องกัน Build ค้างที่หน้าเลือก Timezone)
+ENV DEBIAN_FRONTEND=noninteractive
+
+# ติดตั้ง Curl และติดตั้งโปรแกรม Ollama ตัวล่าสุด
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip && \
+    apt-get install -y curl && \
+    curl -fsSL https://ollama.com/install.sh | sh && \
     rm -rf /var/lib/apt/lists/*
-    
+
 COPY requirements.txt .
-# Use pip3 to match python3
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY handler.py .
 
-# Use python3 explicit binary
-CMD ["python3", "-u", "handler.py"]
+# รันด้วย Python ปกติ
+CMD ["python", "-u", "handler.py"]
