@@ -17,13 +17,13 @@ def start_ollama():
     
     print("[Ollama] Starting Ollama server...")
     # รัน Ollama ใน background
-    subprocess.Popen(
+    p = subprocess.Popen(
         ["ollama", "serve"],
         env=env,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL
     )
-    
+    print("[Ollama] PID:", p.pid)
     # รอให้ Server รันสำเร็จ (Timeout 30 วินาที)
     retries = 30
     server_ready = False
@@ -120,6 +120,10 @@ def handler(job):
         }
 
 # 1. เริ่มระบบ Ollama เป็น Background Process
-start_ollama()
+try:
+    start_ollama()
+except Exception as e:
+    print("[Startup] Failed:", repr(e))
+    raise
 # 2. เริ่มระบบ RunPod Serverless รับ Request จากข้างนอก
 runpod.serverless.start({"handler": handler})
