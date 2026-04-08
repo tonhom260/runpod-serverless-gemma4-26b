@@ -11,12 +11,11 @@ ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64
 
 # Install system deps Ollama commonly needs
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl ca-certificates bash tini \
+    curl ca-certificates bash tini tar zstd \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Ollama binary
-RUN curl -L https://ollama.com/download/ollama-linux-amd64 -o /usr/local/bin/ollama \
-    && chmod +x /usr/local/bin/ollama
+# Install Ollama binary & libraries from official ZST release
+RUN curl -f -L https://ollama.com/download/ollama-linux-amd64.tar.zst | tar --zstd -x -C /usr
 
 # Python deps (make sure runpod is included)
 COPY requirements.txt .
@@ -25,8 +24,8 @@ RUN pip install --no-cache-dir -r requirements.txt && \
 
 COPY handler.py .
 
-# Tini helps avoid zombie processes (ollama runs as a background server)
-ENTRYPOINT ["/usr/bin/tini", "--", "python", "-u", "handler.py"]
+# Tini helps avoid zombie processes
+ENTRYPOINT ["/usr/bin/tini", "-s", "--", "python", "-u", "handler.py"]
 
 # รับชื่อโมเดลผ่าน Container Start Command ได้ (ตามภาพตัวอย่าง)
 CMD ["gemma4:26b-a4b-it-q8_0"]
