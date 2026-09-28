@@ -8,7 +8,7 @@ else:
     MODEL_NAME = os.environ.get("MODEL_NAME", "gemma4:26b-a4b-it-q8_0")
 
 # ใช้ OLLAMA_MODELS โดยตรงให้สอดคล้องกับภาพหน้าจอ (ค่าเริ่มต้นอิงตาม Volume เดิมของคุณ)
-OLLAMA_MODELS_DIR = os.environ.get("OLLAMA_MODELS", "/runpod-volume/workspace/models")
+OLLAMA_MODELS_DIR = os.environ.get("OLLAMA_MODELS", "/runpod-volume/models")
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "127.0.0.1:11434")
 OLLAMA_API = f"http://{OLLAMA_HOST}/api"
 
